@@ -15,21 +15,22 @@ const app = express();
 
 // App Level MW
 app.use(cors());
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 
+//accept json in req and add this json to req.body
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+//app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use(authRoutes);
 
 // Catchalls
-app.use('*',notFound);
+app.use(notFound);
 app.use(errorHandler);
 
 module.exports = {
   server: app,
-  startup: (port) => {
+  start: (port) => {
     app.listen(port, () => {
       console.log(`Server Up on ${port}`);
     });
