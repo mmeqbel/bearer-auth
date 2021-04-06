@@ -1,18 +1,17 @@
 'use strict';
-
-// Start up DB Server
+//mongoose for connect to mongodb
 const mongoose = require('mongoose');
+const server = require('./src/server.js');
+//configure envirement variables
 require('dotenv').config();
-const options = {
+
+mongoose.connect(process.env.MONGODB_URI,{
   useNewUrlParser: true,
   useCreateIndex: true,
-  useUnifiedTopology: true,
-};
-mongoose.connect(process.env.MONGODB_URI, options)
-.then(()=>{
-// Start the web server
-require('./src/server.js').startup(process.env.PORT);
-}).catch((e) => {
-    console.log('__CONNECTION ERROR__', e.message);
+  useUnifiedTopology: true
+}).then(()=>{
+    server.start(process.env.PORT);
+}).catch(error=>{
+    console.log("an error accoured whle starting the server "+error.message);
 });
 
